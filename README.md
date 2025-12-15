@@ -2,7 +2,10 @@
 
 Written by Junyang Guan (jg73@illinois.edu)
 
+
 The GitHub repository contains all the code for the Spray Robotics Project, Team 14 in SE494 Senior Design, Fall 2025, UIUC, sponsored by Marmon Holdings.
+Team Members: Christian F. Belga, William Deng, Sonali Manjunath, Amit J. Mathai, Junyang Guan   
+
 Special thanks to James Nam (sn29@illinois.edu), a PhD student at UIUC, for providing many constructive suggestions in robot programming.
 
 The team extends its gratitude to the following groups and individuals. Project advisor Mr. Michael Brunetto provided extensive support with the economic analysis of the project and facilitated the connection with the General Motors automation team. Appreciation is also given to Prof. James Allison and Dr. Daniel Metz for their detailed feedback and constructive suggestions on reports and presentations, which significantly strengthened the overall quality of the project.
