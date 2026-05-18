@@ -1,0 +1,200 @@
+10/5:
+1st terminal: robot ip:....
+parallels@ubuntu-linux-22-04-02-desktop:~/ur_ws$ ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur10e use_fake_hardware:=false robot_ip:=192.168.1.100
+[INFO] [launch]: All log files can be found below /home/parallels/.ros/log/2025-10-05-16-07-30-238494-ubuntu-linux-22-04-02-desktop-13171
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [dashboard_client-2]: process started with pid [13175]
+[INFO] [controller_stopper_node-4]: process started with pid [13179]
+[INFO] [ur_ros2_control_node-1]: process started with pid [13173]
+[INFO] [robot_state_helper-3]: process started with pid [13177]
+[INFO] [urscript_interface-5]: process started with pid [13181]
+[INFO] [robot_state_publisher-6]: process started with pid [13183]
+[INFO] [rviz2-7]: process started with pid [13185]
+[INFO] [spawner-8]: process started with pid [13187]
+[INFO] [spawner-9]: process started with pid [13189]
+[dashboard_client-2] [INFO] [1759698450.462329698] [UR_Client_Library:]: Starting primary client pipeline
+[controller_stopper_node-4] [INFO] [1759698450.463519531] [Controller stopper]: Waiting for switch controller service to come up on controller_manager/switch_controller
+[ur_ros2_control_node-1] [WARN] [1759698450.472732948] [controller_manager]: [Deprecated] Passing the robot description parameter directly to the control_manager node is deprecated. Use '~/robot_description' topic from 'robot_state_publisher' instead.
+[ur_ros2_control_node-1] text not specified in the tf_prefix tag
+[ur_ros2_control_node-1] [INFO] [1759698450.475009156] [resource_manager]: Loading hardware 'ur10e' 
+[robot_state_helper-3] [INFO] [1759698450.479388989] [UR_Client_Library:]: Starting primary client pipeline
+[ur_ros2_control_node-1] [INFO] [1759698450.483446906] [resource_manager]: Initialize hardware 'ur10e' 
+[ur_ros2_control_node-1] [INFO] [1759698450.484034198] [resource_manager]: Successful initialization of hardware 'ur10e'
+[ur_ros2_control_node-1] [INFO] [1759698450.484488906] [resource_manager]: 'configure' hardware 'ur10e' 
+[ur_ros2_control_node-1] [INFO] [1759698450.484871781] [URPositionHardwareInterface]: Starting ...please wait...
+[ur_ros2_control_node-1] [INFO] [1759698450.485029406] [URPositionHardwareInterface]: Initializing driver...
+[robot_state_publisher-6] [INFO] [1759698450.487341948] [robot_state_publisher]: got segment base
+[robot_state_publisher-6] [INFO] [1759698450.487860573] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-6] [INFO] [1759698450.488409114] [robot_state_publisher]: got segment base_link_inertia
+[robot_state_publisher-6] [INFO] [1759698450.488415448] [robot_state_publisher]: got segment flange
+[robot_state_publisher-6] [INFO] [1759698450.488419364] [robot_state_publisher]: got segment forearm_link
+[robot_state_publisher-6] [INFO] [1759698450.488422573] [robot_state_publisher]: got segment ft_frame
+[robot_state_publisher-6] [INFO] [1759698450.488425739] [robot_state_publisher]: got segment shoulder_link
+[robot_state_publisher-6] [INFO] [1759698450.488429031] [robot_state_publisher]: got segment tool0
+[robot_state_publisher-6] [INFO] [1759698450.488432531] [robot_state_publisher]: got segment upper_arm_link
+[robot_state_publisher-6] [INFO] [1759698450.488435614] [robot_state_publisher]: got segment world
+[robot_state_publisher-6] [INFO] [1759698450.488438739] [robot_state_publisher]: got segment wrist_1_link
+[robot_state_publisher-6] [INFO] [1759698450.488441823] [robot_state_publisher]: got segment wrist_2_link
+[robot_state_publisher-6] [INFO] [1759698450.488444781] [robot_state_publisher]: got segment wrist_3_link
+[rviz2-7] Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway.
+[controller_stopper_node-4] [INFO] [1759698450.534342656] [Controller stopper]: Service available
+[controller_stopper_node-4] [INFO] [1759698450.535144448] [Controller stopper]: Waiting for list controllers service to come up on controller_manager/list_controllers
+[controller_stopper_node-4] [INFO] [1759698450.535177323] [Controller stopper]: Service available
+[rviz2-7] libGL error: pci id for fd 28: 1ab8:0010, driver (null)
+[spawner-8] [INFO] [1759698450.691166031] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[spawner-9] [INFO] [1759698450.691991823] [spawner_joint_trajectory_controller]: waiting for service /controller_manager/list_controllers to become available...
+[rviz2-7] pci id for fd 29: 1ab8:0010, driver (null)
+[rviz2-7] libGL error: pci id for fd 32: 1ab8:0010, driver (null)
+[rviz2-7] pci id for fd 33: 1ab8:0010, driver (null)
+[rviz2-7] [INFO] [1759698450.792363198] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-7] [INFO] [1759698450.792467240] [rviz2]: OpenGl version: 4 (GLSL 4)
+[rviz2-7] [INFO] [1759698450.805667823] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-7] [ERROR] [1759698450.910934073] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae".
+[rviz2-7] [ERROR] [1759698450.912059073] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae".
+[rviz2-7] [ERROR] [1759698450.912912573] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/head.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/head.dae".
+[rviz2-7] [ERROR] [1759698450.912976156] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/head.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/head.dae".
+[rviz2-7] [ERROR] [1759698450.913511156] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/antenna.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/antenna.dae".
+[rviz2-7] [ERROR] [1759698450.913564365] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/antenna.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/antenna.dae".
+[rviz2-7] [ERROR] [1759698450.913596740] [rviz2]: The link l_antenna_link is has unrealistic inertia, so the equivalent inertia box will not be shown.
+[rviz2-7] 
+[rviz2-7] [ERROR] [1759698450.913665281] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/forearm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/forearm.dae".
+[rviz2-7] [ERROR] [1759698450.913698781] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/forearm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/forearm.dae".
+[rviz2-7] [ERROR] [1759698450.913760240] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_finger.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_finger.dae".
+[rviz2-7] [ERROR] [1759698450.913788740] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_finger.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_finger.dae".
+[rviz2-7] [ERROR] [1759698450.913816531] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_finger.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_finger.dae".
+[rviz2-7] [ERROR] [1759698450.913844656] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_finger.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_finger.dae".
+[rviz2-7] [ERROR] [1759698450.913895198] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_thumb.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_thumb.dae".
+[rviz2-7] [ERROR] [1759698450.913951865] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_thumb.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_thumb.dae".
+[rviz2-7] [ERROR] [1759698450.913980698] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_thumb.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_thumb.dae".
+[rviz2-7] [ERROR] [1759698450.914009073] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_thumb.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_thumb.dae".
+[rviz2-7] [ERROR] [1759698450.914061990] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder.dae".
+[rviz2-7] [ERROR] [1759698450.914089615] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder.dae".
+[rviz2-7] [ERROR] [1759698450.914112490] [rviz2]: The link l_shoulder is has unrealistic inertia, so the equivalent inertia box will not be shown.
+[rviz2-7] 
+[rviz2-7] [ERROR] [1759698450.914147281] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder_x.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder_x.dae".
+[rviz2-7] [ERROR] [1759698450.914178406] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder_x.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder_x.dae".
+[rviz2-7] [ERROR] [1759698450.914329365] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/upper_arm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/upper_arm.dae".
+[rviz2-7] [ERROR] [1759698450.914390615] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/upper_arm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/upper_arm.dae".
+[rviz2-7] [ERROR] [1759698450.914545615] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist.dae".
+[rviz2-7] [ERROR] [1759698450.914577365] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist.dae".
+[rviz2-7] [ERROR] [1759698450.914649073] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist2hand.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist2hand.dae".
+[rviz2-7] [ERROR] [1759698450.914685615] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist2hand.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist2hand.dae".
+[rviz2-7] [ERROR] [1759698450.914773156] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae".
+[rviz2-7] [ERROR] [1759698450.914801240] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae".
+[rviz2-7] [ERROR] [1759698450.914881865] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/antenna.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/antenna.dae".
+[rviz2-7] [ERROR] [1759698450.914908615] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/antenna.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/antenna.dae".
+[rviz2-7] [ERROR] [1759698450.914929365] [rviz2]: The link r_antenna_link is has unrealistic inertia, so the equivalent inertia box will not be shown.
+[rviz2-7] 
+[rviz2-7] [ERROR] [1759698450.915021490] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/forearm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/forearm.dae".
+[rviz2-7] [ERROR] [1759698450.915061656] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/forearm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/forearm.dae".
+[rviz2-7] [ERROR] [1759698450.915144948] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_finger.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_finger.dae".
+[rviz2-7] [ERROR] [1759698450.915172906] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_finger.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_finger.dae".
+[rviz2-7] [ERROR] [1759698450.915198490] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_finger.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_finger.dae".
+[rviz2-7] [ERROR] [1759698450.915229448] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_finger.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_finger.dae".
+[rviz2-7] [ERROR] [1759698450.915284406] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_thumb.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_thumb.dae".
+[rviz2-7] [ERROR] [1759698450.915310365] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_thumb.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_thumb.dae".
+[rviz2-7] [ERROR] [1759698450.915341615] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_thumb.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_thumb.dae".
+[rviz2-7] [ERROR] [1759698450.915378573] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_thumb.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_thumb.dae".
+[rviz2-7] [ERROR] [1759698450.915432656] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder.dae".
+[rviz2-7] [ERROR] [1759698450.915463281] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder.dae".
+[rviz2-7] [ERROR] [1759698450.915484823] [rviz2]: The link r_shoulder is has unrealistic inertia, so the equivalent inertia box will not be shown.
+[rviz2-7] 
+[rviz2-7] [ERROR] [1759698450.915524698] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder_x.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder_x.dae".
+[rviz2-7] [ERROR] [1759698450.915563865] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder_x.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/shoulder_x.dae".
+[rviz2-7] [ERROR] [1759698450.915642323] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/upper_arm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/upper_arm.dae".
+[rviz2-7] [ERROR] [1759698450.915676073] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/upper_arm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/upper_arm.dae".
+[rviz2-7] [ERROR] [1759698450.915743240] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist.dae".
+[rviz2-7] [ERROR] [1759698450.915768656] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist.dae".
+[rviz2-7] [ERROR] [1759698450.915832406] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist2hand.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist2hand.dae".
+[rviz2-7] [ERROR] [1759698450.915862365] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist2hand.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/wrist2hand.dae".
+[rviz2-7] [ERROR] [1759698450.915933823] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae".
+[rviz2-7] [ERROR] [1759698450.915959698] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae".
+[rviz2-7] [ERROR] [1759698450.916036448] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/torso.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/torso.dae".
+[rviz2-7] [ERROR] [1759698450.916068240] [rviz2]: Could not load resource [file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/torso.dae]: Unable to open file "file:///home/reachy/reachy_ws/install/reachy_description/share/reachy_description/meshes/torso.dae".
+[spawner-8] [WARN] [1759698450.954759073] [spawner_joint_state_broadcaster]: Controller already loaded, skipping load_controller
+[spawner-9] [FATAL] [1759698450.967552698] [spawner_joint_trajectory_controller]: Failed loading controller joint_trajectory_controller
+[spawner-8] [ERROR] [1759698450.968434698] [spawner_joint_state_broadcaster]: Failed to configure controller
+[ERROR] [spawner-9]: process has died [pid 13189, exit code 1, cmd '/opt/ros/humble/lib/controller_manager/spawner --controller-manager /controller_manager --controller-manager-timeout 10 --inactive joint_trajectory_controller forward_velocity_controller forward_position_controller force_mode_controller passthrough_trajectory_controller freedrive_mode_controller tool_contact_controller --ros-args'].
+[ERROR] [spawner-8]: process has died [pid 13187, exit code 1, cmd '/opt/ros/humble/lib/controller_manager/spawner --controller-manager /controller_manager --controller-manager-timeout 10 joint_state_broadcaster io_and_status_controller speed_scaling_state_broadcaster force_torque_sensor_broadcaster tcp_pose_broadcaster ur_configuration_controller scaled_joint_trajectory_controller --ros-args'].
+^C[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[rviz2-7] [INFO] [1759698491.514585176] [rclcpp]: signal_handler(signum=2)
+[robot_state_helper-3] [INFO] [1759698491.514633884] [rclcpp]: signal_handler(signum=2)
+[robot_state_helper-3] [ERROR] [1759698491.514796717] [UR_Client_Library:]: Failed to connect to robot on IP 192.168.1.100:30001. Please check that the robot is booted and reachable on 192.168.1.100. Retrying in 10 seconds.
+[urscript_interface-5] [INFO] [1759698491.514684051] [rclcpp]: signal_handler(signum=2)
+[ur_ros2_control_node-1] [INFO] [1759698491.514863009] [rclcpp]: signal_handler(signum=2)
+[ur_ros2_control_node-1] [ERROR] [1759698491.515059384] [UR_Client_Library:]: Failed to connect to robot on IP 192.168.1.100:30004. Please check that the robot is booted and reachable on 192.168.1.100. Retrying in 10 seconds.
+[dashboard_client-2] [INFO] [1759698491.514627634] [rclcpp]: signal_handler(signum=2)
+[dashboard_client-2] [ERROR] [1759698491.514938842] [UR_Client_Library:]: Failed to connect to robot on IP 192.168.1.100:30001. Please check that the robot is booted and reachable on 192.168.1.100. Retrying in 10 seconds.
+[controller_stopper_node-4] [INFO] [1759698491.518277342] [rclcpp]: signal_handler(signum=2)
+[controller_stopper_node-4] terminate called after throwing an instance of 'rclcpp::exceptions::RCLError'
+[controller_stopper_node-4]   what():  failed to create guard condition: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/guard_condition.c:67
+[controller_stopper_node-4] Stack trace (most recent call last):
+[robot_state_publisher-6] [INFO] [1759698491.516864176] [rclcpp]: signal_handler(signum=2)
+[controller_stopper_node-4] #16   Object "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1", at 0xffffffffffffffff, in 
+[controller_stopper_node-4] #15   Object "/home/parallels/ur_ws/install/ur_robot_driver/lib/ur_robot_driver/controller_stopper_node", at 0xaaaaba6566ef, in _start
+[controller_stopper_node-4] #14   Source "../csu/libc-start.c", line 392, in __libc_start_main_impl [0xffffbdcd74d7]
+[controller_stopper_node-4] #13   Source "../sysdeps/nptl/libc_start_call_main.h", line 58, in __aarch64_ldadd4_acq [0xffffbdcd73ff]
+[controller_stopper_node-4] #12   Source "/home/parallels/ur_ws/src/Universal_Robots_ROS2_Driver/ur_robot_driver/src/controller_stopper_node.cpp", line 61, in main [0xaaaaba656483]
+[controller_stopper_node-4]          58:     stop_controllers_on_startup = true;
+[controller_stopper_node-4]          59:   }
+[controller_stopper_node-4]          60: 
+[controller_stopper_node-4]       >  61:   ControllerStopper stopper(node, stop_controllers_on_startup);
+[controller_stopper_node-4]          62: 
+[controller_stopper_node-4]          63:   rclcpp::spin(node);
+[controller_stopper_node-4] #11 | Source "/home/parallels/ur_ws/src/Universal_Robots_ROS2_Driver/ur_robot_driver/src/controller_stopper.cpp", line 81, in spin_until_future_complete<rclcpp::Node, rclcpp::Client<controller_manager_msgs::srv::ListControllers>::FutureAndRequestId>
+[controller_stopper_node-4]     |    79:       auto request = std::make_shared<controller_manager_msgs::srv::ListControllers::Request>();
+[controller_stopper_node-4]     |    80:       auto future = controller_list_srv_->async_send_request(request);
+[controller_stopper_node-4]     | >  81:       rclcpp::spin_until_future_complete(node_, future);
+[controller_stopper_node-4]     |    82:       auto result = future.get();
+[controller_stopper_node-4]     |    83:       for (auto& controller : result->controller) {
+[controller_stopper_node-4]     | Source "/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp", line 124, in spin_until_future_complete<rclcpp::Client<controller_manager_msgs::srv::ListControllers>::FutureAndRequestId, long int, std::ratio<1, 1000> >
+[controller_stopper_node-4]     |   122:   std::chrono::duration<TimeRepT, TimeT> timeout = std::chrono::duration<TimeRepT, TimeT>(-1))
+[controller_stopper_node-4]     |   123: {
+[controller_stopper_node-4]     | > 124:   return rclcpp::spin_until_future_complete(node_ptr->get_node_base_interface(), future, timeout);
+[controller_stopper_node-4]     |   125: }
+[controller_stopper_node-4]       Source "/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp", line 112, in ControllerStopper [0xaaaaba65a6ab]
+[controller_stopper_node-4]         109: {
+[controller_stopper_node-4]         110:   rclcpp::ExecutorOptions options;
+[controller_stopper_node-4]         111:   options.context = node_ptr->get_context();
+[controller_stopper_node-4]       > 112:   rclcpp::executors::SingleThreadedExecutor executor(options);
+[controller_stopper_node-4]         113:   return executors::spin_node_until_future_complete<FutureT>(executor, node_ptr, future, timeout);
+[controller_stopper_node-4]         114: }
+[controller_stopper_node-4] #10   Object "/opt/ros/humble/lib/librclcpp.so", at 0xffffbe2cea13, in rclcpp::executors::SingleThreadedExecutor::SingleThreadedExecutor(rclcpp::ExecutorOptions const&)
+[controller_stopper_node-4] #9    Object "/opt/ros/humble/lib/librclcpp.so", at 0xffffbe2ca71f, in rclcpp::Executor::Executor(rclcpp::ExecutorOptions const&)
+[controller_stopper_node-4] #8    Object "/opt/ros/humble/lib/librclcpp.so", at 0xffffbe2db0df, in rclcpp::GuardCondition::GuardCondition(std::shared_ptr<rclcpp::Context>, rcl_guard_condition_options_s)
+[controller_stopper_node-4] #7    Object "/opt/ros/humble/lib/librclcpp.so", at 0xffffbe2c34c7, in rclcpp::exceptions::throw_from_rcl_error(int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, rcutils_error_state_s const*, void (*)())
+[controller_stopper_node-4] #6    Object "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30", at 0xffffbdf32b37, in std::rethrow_exception(std::__exception_ptr::exception_ptr)
+[controller_stopper_node-4] #5    Object "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30", at 0xffffbdf32baf, in std::terminate()
+[controller_stopper_node-4] #4    Object "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30", at 0xffffbdf32b4b, in 
+[controller_stopper_node-4] #3    Object "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30", at 0xffffbdf353cf, in __gnu_cxx::__verbose_terminate_handler()
+[controller_stopper_node-4] #2    Source "./stdlib/abort.c", line 79, in abort [0xffffbdcd7133]
+[controller_stopper_node-4] #1    Source "../sysdeps/posix/raise.c", line 26, in raise [0xffffbdcea83b]
+[controller_stopper_node-4] #0    Source "./nptl/pthread_kill.c", line 44, in __pthread_kill_implementation [0xffffbdd32008]
+[controller_stopper_node-4] Aborted (Signal sent by tkill() 13179 1000)
+[ERROR] [controller_stopper_node-4]: process has died [pid 13179, exit code -6, cmd '/home/parallels/ur_ws/install/ur_robot_driver/lib/ur_robot_driver/controller_stopper_node --ros-args -r __node:=controller_stopper --params-file /tmp/launch_params_6x3vy_mo --params-file /tmp/launch_params_vwcj829n --params-file /tmp/launch_params_jqlpfzxm'].
+[INFO] [robot_state_publisher-6]: process has finished cleanly [pid 13183]
+[INFO] [rviz2-7]: process has finished cleanly [pid 13185]
+[ERROR] [urscript_interface-5]: process[urscript_interface-5] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [robot_state_helper-3]: process[robot_state_helper-3] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [dashboard_client-2]: process[dashboard_client-2] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[ERROR] [ur_ros2_control_node-1]: process[ur_ros2_control_node-1] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[INFO] [urscript_interface-5]: sending signal 'SIGTERM' to process[urscript_interface-5]
+[INFO] [robot_state_helper-3]: sending signal 'SIGTERM' to process[robot_state_helper-3]
+[INFO] [dashboard_client-2]: sending signal 'SIGTERM' to process[dashboard_client-2]
+[INFO] [ur_ros2_control_node-1]: sending signal 'SIGTERM' to process[ur_ros2_control_node-1]
+[urscript_interface-5] [INFO] [1759698496.534733761] [rclcpp]: signal_handler(signum=15)
+[robot_state_helper-3] [INFO] [1759698496.536080511] [rclcpp]: signal_handler(signum=15)
+[dashboard_client-2] [INFO] [1759698496.537184678] [rclcpp]: signal_handler(signum=15)
+[ur_ros2_control_node-1] [INFO] [1759698496.538190720] [rclcpp]: signal_handler(signum=15)
+[ERROR] [urscript_interface-5]: process[urscript_interface-5] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[ERROR] [robot_state_helper-3]: process[robot_state_helper-3] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[ERROR] [dashboard_client-2]: process[dashboard_client-2] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[ERROR] [ur_ros2_control_node-1]: process[ur_ros2_control_node-1] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[INFO] [urscript_interface-5]: sending signal 'SIGKILL' to process[urscript_interface-5]
+[INFO] [robot_state_helper-3]: sending signal 'SIGKILL' to process[robot_state_helper-3]
+[INFO] [dashboard_client-2]: sending signal 'SIGKILL' to process[dashboard_client-2]
+[INFO] [ur_ros2_control_node-1]: sending signal 'SIGKILL' to process[ur_ros2_control_node-1]
+[ERROR] [robot_state_helper-3]: process has died [pid 13177, exit code -9, cmd '/home/parallels/ur_ws/install/ur_robot_driver/lib/ur_robot_driver/robot_state_helper --ros-args -r __node:=ur_robot_state_helper --params-file /tmp/launch_params_vgsixcsg --params-file /tmp/launch_params_k9zzqi8j'].
+[ERROR] [urscript_interface-5]: process has died [pid 13181, exit code -9, cmd '/home/parallels/ur_ws/install/ur_robot_driver/lib/ur_robot_driver/urscript_interface --ros-args --params-file /tmp/launch_params_dchj1v2o'].
+[ERROR] [dashboard_client-2]: process has died [pid 13175, exit code -9, cmd '/home/parallels/ur_ws/install/ur_robot_driver/lib/ur_robot_driver/dashboard_client --ros-args -r __node:=dashboard_client --params-file /tmp/launch_params_k0vxy9pu'].
+[ERROR] [ur_ros2_control_node-1]: process has died [pid 13173, exit code -9, cmd '/home/parallels/ur_ws/install/ur_robot_driver/lib/ur_robot_driver/ur_ros2_control_node --ros-args --params-file /tmp/launch_params_2fxpewhr --params-file /home/parallels/ur_ws/install/ur_robot_driver/share/ur_robot_driver/config/ur10e_update_rate.yaml --params-file /tmp/launch_params_w7wh6m9w'].

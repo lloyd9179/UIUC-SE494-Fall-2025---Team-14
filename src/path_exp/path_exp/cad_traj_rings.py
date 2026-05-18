@@ -1,0 +1,447 @@
+#### SE 494, Fall 2025
+### Written by Junyang Guan
+###  lloyd9179@gmail.com
+##### University of Illinois Urbana Champaign
+import rclpy
+from rclpy.node import Node
+from rclpy.action import ActionClient
+from rclpy.executors import MultiThreadedExecutor
+import threading
+import numpy as np
+import math
+
+# MoveIt related messages, services, and actions
+from moveit_msgs.msg import MoveItErrorCodes, Constraints, JointConstraint, RobotTrajectory, PositionConstraint, OrientationConstraint
+from moveit_msgs.action import MoveGroup, ExecuteTrajectory
+from moveit_msgs.srv import GetCartesianPath
+from sensor_msgs.msg import JointState
+from geometry_msgs.msg import Pose, Quaternion, PoseStamped ### NEW IMPORT ###
+from builtin_interfaces.msg import Duration
+
+# In your ROS 2 environment, you can install scipy with:
+# python3 -m pip install scipy
+from scipy.spatial.transform import Rotation
+import time
+###############################################
+from ur_msgs.srv import SetIO
+
+# --------------------------------------------------------------------------------
+# Helper functions (All unchanged)
+def moveit_error_code_to_string(val):
+    """Translates a MoveItErrorCodes message to a string for debugging."""
+    if val == MoveItErrorCodes.SUCCESS:
+        return "SUCCESS"
+    if val == MoveItErrorCodes.FAILURE:
+        return "FAILURE"
+    error_dict = {k: v for k, v in MoveItErrorCodes.__dict__.items() if k.isupper()}
+    for name, value in error_dict.items():
+        if value == val:
+            return name
+    return "UNKNOWN_ERROR_CODE"
+
+def rescale_trajectory_time(trajectory: RobotTrajectory, time_scaling_factor: float) -> RobotTrajectory:
+    """
+    Rescales a trajectory's timestamps and correctly updates velocities and accelerations.
+    """
+    if time_scaling_factor == 1.0:
+        return trajectory
+    new_trajectory = RobotTrajectory()
+    new_trajectory.joint_trajectory.header = trajectory.joint_trajectory.header
+    new_trajectory.joint_trajectory.joint_names = trajectory.joint_trajectory.joint_names
+    for point in trajectory.joint_trajectory.points:
+        new_point = point
+        original_time_from_start = point.time_from_start.sec + point.time_from_start.nanosec / 1e9
+        new_time_from_start = original_time_from_start * time_scaling_factor
+        new_point.time_from_start = Duration(
+            sec=int(new_time_from_start),
+            nanosec=int((new_time_from_start % 1) * 1e9)
+        )
+        if point.velocities:
+            new_point.velocities = [v / time_scaling_factor for v in point.velocities]
+        if point.accelerations:
+            new_point.accelerations = [a / (time_scaling_factor**2) for a in point.accelerations]
+        new_trajectory.joint_trajectory.points.append(new_point)
+    return new_trajectory
+
+def get_orientation(normal, tangent): ###### normal and tan defined in the geometry math part
+    """
+    """
+    z_axis = np.array(normal) / np.linalg.norm(normal)
+    t_vec = np.array(tangent)
+
+    #if np.linalg.norm(tangent)<1e-6:
+    #    return Quaternion(w=1.0)
+    #z_axis = np.array(tangent) / np.linalg.norm(tangent)
+    #if np.linalg.norm(normal)<1e-6:
+    #    y_vec = np.array([0,0,1.0])
+    #y_vec = np.array(normal)/ np.linalg.norm(normal)
+    #x_axis = np.cross(y_vec, z_axis)
+    #x_axis = x_axis / np.linalg.norm(x_axis)
+    #y_axis = np.cross(z_axis,x_axis)
+
+
+    if np.linalg.norm(t_vec) > 1e-6:
+        t_vec = t_vec / np.linalg.norm(t_vec)
+    y_axis = np.cross(z_axis, t_vec)
+    if np.linalg.norm(y_axis) < 1e-6:
+        t_vec = np.array([1.0, 0.0, 0.0])
+        y_axis = np.cross(z_axis, t_vec)
+        if np.linalg.norm(y_axis) < 1e-6:
+            t_vec = np.array([0.0, 1.0, 0.0])
+            y_axis = np.cross(z_axis, t_vec)
+
+    y_axis /= np.linalg.norm(y_axis)
+    x_axis = np.cross(y_axis, z_axis)
+
+    rotation_matrix = np.array([x_axis, y_axis, z_axis]).T
+    r = Rotation.from_matrix(rotation_matrix)
+    quat = r.as_quat()
+    q_msg = Quaternion()
+    q_msg.x = quat[0]
+    q_msg.y = quat[1]
+    q_msg.z = quat[2]
+    q_msg.w = quat[3]
+    return q_msg
+
+# --------------------------------------------------------------------------------
+class RingController(Node):
+    # __init__, joint_state_callback, wait_for_ready are unchanged.
+    def __init__(self):
+        super().__init__('ring_controller_node')
+        self.move_group_name = "ur_manipulator"
+        self.end_effector_link = "wrist_3_link" ############################################ ee link, need to change: urdf and here!!!!!!!!!!!!!
+        self.joint_names = [
+            "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint",
+            "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"
+        ]
+        self._move_group_action_client = ActionClient(self, MoveGroup, '/move_action')
+        self._execute_trajectory_action_client = ActionClient(self, ExecuteTrajectory, '/execute_trajectory')
+        self._cartesian_path_service_client = self.create_client(GetCartesianPath, '/compute_cartesian_path')
+        self._joint_state_sub = self.create_subscription(
+            JointState, 'joint_states', self.joint_state_callback, 10)
+        self.current_joint_state = None
+        self.get_logger().info("Node initialized.")
+
+    def joint_state_callback(self, msg: JointState):
+        self.current_joint_state = msg
+
+    def wait_for_ready(self):
+        self.get_logger().info("Waiting for all services to be ready...")
+        self._move_group_action_client.wait_for_server()
+        self._execute_trajectory_action_client.wait_for_server()
+        self._cartesian_path_service_client.wait_for_service()
+        self.get_logger().info(" - Waiting to receive /joint_states message...")
+        while self.current_joint_state is None and rclpy.ok():
+            rclpy.spin_once(self, timeout_sec=0.1)
+        self.get_logger().info("All services are ready! Ready to plan.")
+        return True
+
+    # plan_and_execute_joint_goal is unchanged.
+    def plan_and_execute_joint_goal(self, goal_joint_positions):
+        self.get_logger().info(f"Planning to joint goal: {goal_joint_positions}")
+        if len(goal_joint_positions) != len(self.joint_names):
+            self.get_logger().error("Number of goal positions does not match number of joints!")
+            return False
+        goal_msg = MoveGroup.Goal()
+        request = goal_msg.request
+        request.group_name = self.move_group_name
+        request.num_planning_attempts = 10
+        request.allowed_planning_time = 5.0
+        request.start_state.joint_state = self.current_joint_state
+        request.start_state.is_diff = True
+        goal_constraints = Constraints()
+        for i, name in enumerate(self.joint_names):
+            joint_constraint = JointConstraint()
+            joint_constraint.joint_name = name
+            joint_constraint.position = goal_joint_positions[i]
+            joint_constraint.tolerance_above = 0.01
+            joint_constraint.tolerance_below = 0.01
+            joint_constraint.weight = 1.0
+            goal_constraints.joint_constraints.append(joint_constraint)
+        request.goal_constraints.append(goal_constraints)
+        future = self._move_group_action_client.send_goal_async(goal_msg)
+        rclpy.spin_until_future_complete(self, future)
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().error("Goal was rejected by server!")
+            return False
+        result_future = goal_handle.get_result_async()
+        rclpy.spin_until_future_complete(self, result_future)
+        result = result_future.result().result
+        error_string = moveit_error_code_to_string(result.error_code.val)
+        if result.error_code.val == MoveItErrorCodes.SUCCESS:
+            self.get_logger().info(f"Motion succeeded! Result: {error_string}")
+            return True
+        else:
+            self.get_logger().error(f"Motion failed! Result: {error_string}")
+            return False
+
+    ### NEW METHOD to move to a specific Cartesian Pose ###
+    def plan_and_execute_pose_goal(self, goal_pose: Pose):
+        """Plans and moves the end-effector to a specific Cartesian pose."""
+        self.get_logger().info(f"Planning to pose goal: {goal_pose.position.x:.3f}, {goal_pose.position.y:.3f}, {goal_pose.position.z:.3f}")
+
+        goal_msg = MoveGroup.Goal()
+        request = goal_msg.request
+        request.group_name = self.move_group_name
+        request.num_planning_attempts = 10
+        request.allowed_planning_time = 5.0
+        request.start_state.joint_state = self.current_joint_state
+        request.start_state.is_diff = True
+        
+        pose_goal = PoseStamped()
+        pose_goal.header.frame_id = "base_link"
+        pose_goal.pose = goal_pose
+
+        # Set the pose goal for the end-effector
+        ############################################### 
+        request.goal_constraints.append(self._create_pose_constraints(pose_goal))
+
+        future = self._move_group_action_client.send_goal_async(goal_msg)
+        rclpy.spin_until_future_complete(self, future)
+        goal_handle = future.result()
+
+        if not goal_handle.accepted:
+            self.get_logger().error("Pose goal was rejected by server!")
+            return False
+
+        result_future = goal_handle.get_result_async()
+        rclpy.spin_until_future_complete(self, result_future)
+        result = result_future.result().result
+        error_string = moveit_error_code_to_string(result.error_code.val)
+
+        if result.error_code.val == MoveItErrorCodes.SUCCESS:
+            self.get_logger().info(f"Move to pose succeeded! Result: {error_string}")
+            return True
+        else:
+            self.get_logger().error(f"Move to pose failed! Result: {error_string}")
+            return False
+
+    def _create_pose_constraints(self, pose_stamped: PoseStamped) -> Constraints:
+        """Helper to create position and orientation constraints from a PoseStamped message."""
+        constraints = Constraints()
+        
+        # Position Constraint
+        pc = PositionConstraint()
+        pc.header.frame_id = pose_stamped.header.frame_id
+        pc.link_name = self.end_effector_link
+        pc.constraint_region.primitive_poses.append(pose_stamped.pose)
+        pc.weight = 1.0
+        constraints.position_constraints.append(pc)
+        
+        # Orientation Constraint
+        oc = OrientationConstraint()
+        oc.header.frame_id = pose_stamped.header.frame_id
+        oc.link_name = self.end_effector_link
+        oc.orientation = pose_stamped.pose.orientation
+        oc.absolute_x_axis_tolerance = 0.01
+        oc.absolute_y_axis_tolerance = 0.01
+        oc.absolute_z_axis_tolerance = 0.01
+        oc.weight = 1.0
+        constraints.orientation_constraints.append(oc)
+        
+        return constraints
+
+    # _plan_and_execute_cartesian_path helper method is unchanged.
+    def _plan_and_execute_cartesian_path(self, waypoints, time_scaling_factor=1.5):
+        if not waypoints:
+            self.get_logger().error("No waypoints provided to _plan_and_execute_cartesian_path.")
+            return False
+        self.get_logger().info("Calling /compute_cartesian_path service...")
+        request = GetCartesianPath.Request()
+        request.header.frame_id = "base_link"
+        request.start_state.joint_state = self.current_joint_state
+        request.group_name = self.move_group_name
+        request.waypoints = waypoints
+        request.max_step = 0.01
+        request.jump_threshold = 0.0
+        future = self._cartesian_path_service_client.call_async(request)
+        rclpy.spin_until_future_complete(self, future)
+        response = future.result()
+        fraction = response.fraction
+        self.get_logger().info(f"Cartesian path computed with fraction: {fraction * 100.0:.2f}%")
+        if fraction < 0.9:
+            self.get_logger().error("Could not compute a complete Cartesian path. Cancelling motion.")
+            return False
+        self.get_logger().info(f"Rescaling trajectory time by a factor of {time_scaling_factor}...")
+        rescaled_trajectory = rescale_trajectory_time(response.solution, time_scaling_factor)
+        self.get_logger().info("Planning successful. Preparing to execute trajectory...")
+        execute_goal = ExecuteTrajectory.Goal()
+        execute_goal.trajectory = rescaled_trajectory
+        execute_future = self._execute_trajectory_action_client.send_goal_async(execute_goal)
+        rclpy.spin_until_future_complete(self, execute_future)
+        goal_handle = execute_future.result()
+        if not goal_handle.accepted:
+            self.get_logger().error("Trajectory execution goal was rejected by server.")
+            return False
+        self.get_logger().info("Trajectory execution in progress...")
+        execute_result_future = goal_handle.get_result_async()
+        rclpy.spin_until_future_complete(self, execute_result_future)
+        final_result = execute_result_future.result().result
+        if final_result.error_code.val == MoveItErrorCodes.SUCCESS:
+            self.get_logger().info("Trajectory execution successful!")
+            return True
+        else:
+            error_string = moveit_error_code_to_string(final_result.error_code.val)
+            self.get_logger().error(f"Trajectory execution failed: {error_string}")
+            return False
+            
+    ### MODIFIED PRIMARY METHOD ###
+    def plan_and_execute_rings(self, start_joint_goal):
+        """
+        Generates and executes a series of concentric rings on the surface.
+        Returns to a home position between each ring for robust planning.
+        """
+        # --- 1. DEFINE GEOMETRY & PATH PARAMETERS ---
+        self.get_logger().info("Defining geometry based on precise model...")
+        INCHES_TO_METERS = 0.0254
+        h_c = (31.28 - 28.05) / 2 * INCHES_TO_METERS
+        h_e = 28.05 / 2 * INCHES_TO_METERS
+        R_cyl = (110.25 / 4) * INCHES_TO_METERS
+        a = R_cyl
+        b = h_e
+        a_sq = a**2
+        b_sq = b**2
+        OBJECT_CENTER_M = np.array([0.0, 0.30, a]) #############
+        num_rings = 10
+        points_per_ring = 60
+
+        # --- 2. GENERATE AND EXECUTE RING BY RING WITH RETURN-TO-HOME ---
+        total_depth = h_c + h_e ###31.28/2*0.0254 = 0.3973m
+        
+        for i in range(num_rings):
+            # --- Generate waypoints for the current ring ---
+            progress = i / (num_rings - 1)
+            y = progress * total_depth
+            self.get_logger().info(f"\n{'='*20} Processing Ring {i+1}/{num_rings} at depth y={y:.4f} {'='*20}")
+            waypoints_for_ring = []
+            raw_points_for_ring = []
+            for j in range(points_per_ring + 1):
+                theta = (j / points_per_ring) * 2 * math.pi
+                if y <= h_c:
+                    radius = R_cyl
+                else:
+                    y_shifted = y - h_c
+                    sqrt_arg = 1 - (y_shifted**2 / b_sq)
+                    if sqrt_arg < 0: continue
+                    ###################################################
+                    radius = a * math.sqrt(sqrt_arg) 
+                x = radius * math.cos(theta) #################### theta = 0, x=r.
+                z = radius * math.sin(theta)
+                #########################################################
+                raw_points_for_ring.append(np.array([x, y, z]))
+            for k in range(len(raw_points_for_ring) -1):
+                p_current = raw_points_for_ring[k]
+                p_next = raw_points_for_ring[k+1]
+                x, y, z = p_current[0], p_current[1], p_current[2]
+                if y <= h_c:
+                    normal_vector = np.array([2*x, 0, 2*z])
+                else:
+                    y_shifted = y - h_c
+                    normal_vector = np.array([2*x / a_sq, 2*y_shifted / b_sq, 2*z / a_sq])
+                tangent_vector = p_next - p_current
+                #####################
+                norm = np.linalg.norm(normal_vector)
+                tan = np.linalg.norm(tangent_vector)
+                if norm >1e-6:
+                    unit_normal_vector = normal_vector/norm
+                else:
+                    unit_normal_vector = np.array([0,0,0])
+                if tan >1e-6:
+                    unit_tangent_vector = tangent_vector/tan
+                else:
+                    unit_tangent_vector = np.array([0,0,0])
+                flange_standoff_dist = 0.25  ################ flange to the surface: 25cm
+                offset_vector = unit_normal_vector*flange_standoff_dist
+                #offset_vector = unit_tangent_vector*flange_standoff_dist
+                
+
+                tool_orientation = get_orientation(normal_vector, tangent_vector)
+
+                tool_position = p_current + OBJECT_CENTER_M- offset_vector #################### now its 25cm away from the head
+                p = Pose()
+                p.position.x = tool_position[0]
+                p.position.y = tool_position[1]
+                p.position.z = tool_position[2]
+                p.orientation = tool_orientation
+                waypoints_for_ring.append(p)
+            
+            if not waypoints_for_ring:
+                self.get_logger().error(f"Could not generate waypoints for ring {i+1}. Skipping.")
+                continue
+
+            ### MODIFIED LOGIC: 3-STEP EXECUTION ###
+            # STEP 1: Move from Home to the start of the ring
+
+            ###### no need to move to the start point of each ring
+            #self.get_logger().info(f"--- Step A: Moving to the start of Ring {i+1} ---")
+            #start_pose_of_ring = waypoints_for_ring[0]
+            #if not self.plan_and_execute_pose_goal(start_pose_of_ring):
+            #    self.get_logger().error(f"Failed to move to the start of Ring {i+1}. Aborting mission.")
+            #    return False
+            #self.get_logger().info("wait for 2s, prepare to do rings")
+            #time.sleep(2.0)
+            
+            # STEP 2: Execute the ring itself
+            self.get_logger().info(f"--- Step B: Executing Ring {i+1} ---")
+            if not self._plan_and_execute_cartesian_path(waypoints_for_ring):
+                self.get_logger().error(f"Failed to execute Ring {i+1}. Aborting mission.")
+                # Attempt to return home even if the ring fails
+                self.plan_and_execute_joint_goal(start_joint_goal)
+                return False
+            self.get_logger().info(f"Ring {i+1} finished, stop for 2s, then return to preparation pose")
+            time.sleep(2.0)
+            
+            # STEP 3: Return to Home position
+            self.get_logger().info(f"--- Step C: Ring {i+1} complete. Returning to Home position ---")
+            if not self.plan_and_execute_joint_goal(start_joint_goal):
+                self.get_logger().error(f"CRITICAL: Failed to return to home after Ring {i+1}. Aborting.")
+                return False
+            self.get_logger().info("preparation pose, wait for 2s and next ring")
+            time.sleep(2.0)
+
+        self.get_logger().info("\nAll concentric rings executed successfully!")
+        return True
+
+# --------------------------------------------------------------------------------
+def main(args=None):
+    rclpy.init(args=args)
+    ring_controller = RingController()
+    executor = MultiThreadedExecutor()
+    executor.add_node(ring_controller)
+    executor_thread = threading.Thread(target=executor.spin, daemon=True)
+    executor_thread.start()
+    
+    try:
+        if ring_controller.wait_for_ready():
+            # This is our "Home" position
+            start_joint_goal = [math.radians(0), math.radians(-75), math.radians(105), 
+                                math.radians(-120), math.radians(90), math.radians(90)]
+            
+            ring_controller.get_logger().info("--- Step 1: Moving to Start/Home Position ---")
+            success_to_start = ring_controller.plan_and_execute_joint_goal(start_joint_goal)
+            
+            if success_to_start:
+                ring_controller.get_logger().info("\n--- Step 2: Starting Ring Execution Sequence ---")
+                
+                ### MODIFIED ###
+                # Pass the home position to the main execution function
+                ring_controller.plan_and_execute_rings(start_joint_goal)
+                
+                # The final return-to-home is now handled inside the loop,
+                # so no extra call is needed here.
+                ring_controller.get_logger().info("\n--- Mission Finished ---")
+
+            else:
+                ring_controller.get_logger().error("Failed to move to start position. Cancelling mission.")
+
+    except KeyboardInterrupt:
+        ring_controller.get_logger().info("Keyboard interrupt, shutting down.")
+    
+    ring_controller.destroy_node()
+    rclpy.shutdown()
+    executor_thread.join()
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<!--#### SE 494, Fall 2025 -->
+<!--### Written by Junyang Guan -->
+<!--###  lloyd9179@gmail.com -->
+<!--##### University of Illinois Urbana Champaign -->
+  <joint name="tool0_to_my_tool_joint" type="fixed">
+    <parent link="tool0"/>
+    <child link="my_tool_base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="my_tool_base_link">
+    <visual>
+      <geometry>
+         <cylinder radius="0.03" length="0.2"/>
+<!-- changes needed-->
+      </geometry>
+      <material name="Red">
+         <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry> <!-- changes needed-->
+         <cylinder radius="0.03" length="0.2"/>
+      </geometry>
+    </collision>
+    <inertial>  <!-- changes needed-->
+      <mass value="0.2" /> <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+  </link>
+
+<joint name="tool_base_to_gun" type="fixed">
+    <parent link="my_tool_base_link"/>
+    <child link="my_tool_gun_link"/>
+    <origin xyz="0 0 0.15" rpy="0 0 0" /> <!-- changes needed-->
+  </joint>
+
+  <link name="my_tool_gun_link">
+    <visual>
+      <geometry> <!-- changes needed-->
+         <box size="0.04 0.1 0.1"/>
+      </geometry>
+      <material name="Blue">
+         <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry> <!-- changes needed-->
+         <box size="0.04 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <inertial> <!-- changes needed-->
+      <mass value="0.2" /> <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+  </link>
+
+  <link name="my_tool_tcp" />
+  <joint name="my_tool_to_tcp_joint" type="fixed">
+      <parent link="my_tool_gun_link" />
+      <child link="my_tool_tcp" />
+      <origin xyz="0 0 0.01" rpy="0 0 0" /> <!-- changes needed, the consistent distance needed is the distance between this tcp and the surface-->
+  </joint>
+
+</robot>
+
