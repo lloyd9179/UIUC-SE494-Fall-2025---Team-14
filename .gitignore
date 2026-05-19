@@ -1,0 +1,54 @@
+# Build and development artifacts
+build/
+install/
+log/
+*.log
+*.bag
+*.db
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+.python-version
+.mypy_cache/
+.pytest_cache/
+coverage.xml
+htmlcov/
+*.cover
+*.coverage
+
+# Editor temporary files
+*.swp
+*.swo
+*~
+*.tmp
+*.bak
+*.orig
+.DS_Store
+.vscode/
+.idea/
+
+# ROS and colcon
+**/build/
+**/install/
+**/log/
+**/devel/
+**/share/**/node_modules/
+
+# General
+*.tgz
+*.zip
+*.egg-info/
+*.egg
+dist/
+
+# Ignore compiled binaries
+*.o
+*.so
+*.exe
+*.dll
+*.dylib
+
+# Ignore system files
+Thumbs.db
+desktop.ini
