@@ -1,6 +1,6 @@
 # UIUC SE494 Team 14 — ROS Workspace
 
-This repository contains a ROS workspace for the Spray Robotics Project, Team 14 in SE494 Senior Design, Fall 2025, UIUC, sponsored by Marmon Holdings. It includes robot-related packages, third-party robot drivers, and URDF/description assets.
+This repository contains a ROS workspace for the Spray Robotics Project, Team 14 in SE494 Senior Design, Fall 2025, University of Illinois Urbana-Champaign, sponsored by Marmon Holdings. It includes robot-related packages, third-party robot drivers, and URDF/description assets.
 
 ## Project information
 
@@ -9,6 +9,8 @@ Written by Junyang Guan (jg73@illinois.edu)
 The GitHub repository contains all the code for the Spray Robotics Project, Team 14 in SE494 Senior Design, Fall 2025, UIUC, sponsored by Marmon Holdings.
 
 Team Members: Christian F. Belga, William Deng, Sonali Manjunath, Amit J. Mathai, Junyang Guan.
+
+The repository includes external packages from other authors, which are incorporated here as normal source directories for browsing and building. Team 14 did not author those external packages.
 
 Special thanks to James Nam (sn29@illinois.edu), a PhD student at UIUC, for providing many constructive suggestions in robot programming.
 
@@ -26,24 +28,19 @@ Lastly, gratitude is extended to the UIUC Industrial and Systems Engineering Dep
 - `src/ur_description/` — Universal Robots description and URDF resources
 - `robot_calibration.yaml` — calibration-related configuration file
 
-## Why some folders cannot be clicked on GitHub
+## Why some folders were not clickable on GitHub
 
-Some directories inside `src/` are not shown as normal browsable folders on GitHub because they contain their own Git metadata (`.git` directories). That means they are nested repositories rather than regular tracked subfolders.
+Previously, some directories inside `src/` were nested Git repositories rather than normal tracked subfolders. That made GitHub render them as gitlinks instead of ordinary browsable directories.
 
-The following packages are included from other authors or external open-source repositories:
+Those external packages came from other authors or open-source repositories:
 
 - `src/Universal_Robots_ROS2_Driver/`
 - `src/robotiq_hande_driver/`
 - `src/robotiq_hande_description/`
 
-Those are not original files created by Team 14. They are packaged here as nested repositories for convenience.
+Team 14 did not author these external packages.
 
-On GitHub, nested repositories are not displayed the same way as ordinary directories. If you want them to behave normally in the parent repository, you should either:
-
-1. Remove the nested `.git` directories and commit the package contents as part of this repository, or
-2. Convert them to proper Git submodules and add a root `.gitmodules` file.
-
-For now, GitHub may show those entries as opaque repository links rather than clickable file trees.
+I have now removed the nested `.git` metadata and included the package contents directly in this repository, so GitHub can display them as normal folders.
 
 ## Getting started
 
