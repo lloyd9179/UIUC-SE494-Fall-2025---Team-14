@@ -296,7 +296,7 @@ class RingController(Node):
         
         return constraints
     # _plan_and_execute_cartesian_path helper method is unchanged.
-    def _plan_and_execute_cartesian_path(self, waypoints, time_scaling_factor=4.0):
+    def _plan_and_execute_cartesian_path(self, waypoints, time_scaling_factor=2.0):
         if not waypoints:
             self.get_logger().error("No waypoints provided to _plan_and_execute_cartesian_path.")
             return False
@@ -366,7 +366,7 @@ class RingController(Node):
         # --- 2. GENERATE AND EXECUTE RING BY RING WITH RETURN-TO-HOME ---
         total_depth = h_c + h_e ###31.28/2*0.0254 = 0.3973m
         
-        for i in range(6, num_rings): #############start the 4th ring
+        for i in range(1, num_rings): #############start at the #th ring
             # --- Generate waypoints for the current ring ---
             progress = i / num_rings  ################
             y = progress * total_depth

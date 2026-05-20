@@ -2,23 +2,18 @@
 
 This repository contains a ROS workspace for the Spray Robotics Project, Team 14 in SE494 Senior Design, Fall 2025, University of Illinois Urbana-Champaign, sponsored by Marmon Holdings. It includes robot-related packages, third-party robot drivers, and URDF/description assets.
 
+![Workspace Demo](assets/images/demo.gif)
+
 ## Project information
 
 Written by Junyang Guan (jg73@illinois.edu)
 
-The GitHub repository contains all the code for the Spray Robotics Project, Team 14 in SE494 Senior Design, Fall 2025, UIUC, sponsored by Marmon Holdings.
-
 Team Members: Christian F. Belga, William Deng, Sonali Manjunath, Amit J. Mathai, Junyang Guan.
 
-The repository includes external packages from other authors, which are incorporated here as normal source directories for browsing and building. Team 14 did not author those external packages.
+This project demonstrates the feasibility of automating the interior spray coating process for railcar tank heads using a collaborative robot (UR10e) and ROS2. The goal is to improve safety, consistency, and efficiency in railcar maintenance by reducing human exposure to hazardous environments and minimizing coating defects. The project was developed as a proof-of-concept for Marmon Holdings’ UTLX division, which operates North America’s largest fleet of tank cars.
 
-Special thanks to James Nam (sn29@illinois.edu), a PhD student at UIUC, for providing many constructive suggestions in robot programming.
+Manual spray coating of railcar interiors is labor-intensive, hazardous, and prone to quality defects, especially on the complex, curved tank head surfaces. By leveraging robotics and advanced trajectory planning, this project aims to deliver a safer, more consistent, and economically viable solution for the industry.
 
-The team extends its gratitude to the following groups and individuals. Project advisor Mr. Michael Brunetto provided extensive support with the economic analysis of the project and facilitated the connection with the General Motors automation team. Appreciation is also given to Prof. James Allison and Dr. Daniel Metz for their detailed feedback and constructive suggestions on reports and presentations, which significantly strengthened the overall quality of the project.
-
-Special thanks are extended to the UTLX team in Muscatine, Iowa, for generously pausing plant operations to ensure a safe environment for the design team to enter the confined space of a railcar. Mr. Troy McKim and Mr. Derek Adams offered exceptional assistance throughout the semester, going above and beyond by providing thoughtful, detailed responses to technical questions and arranging an additional meeting to discuss economic considerations. Mr. Wyatt Blake contributed valuable technical expertise regarding the spray coating process used for the railcar interior. Appreciation is also given to Marmon Holdings in Chicago and Mr. Vincenzo DiFatta for their guidance and efforts in the coordination of the shipment of the industrial robot to the UIUC campus.
-
-Lastly, gratitude is extended to the UIUC Industrial and Systems Engineering Department for providing this senior capstone experience and coordinating a hands-on engineering project with industry partners that generated meaningful real-world impact. Special thanks go to Dr. Tom Titone and Tracey Rich for facilitating the senior design course, and to Lucas Osborne for coordinating the purchase of the materials and tools needed to complete the project.
 
 ## What is included
 
@@ -28,7 +23,7 @@ Lastly, gratitude is extended to the UIUC Industrial and Systems Engineering Dep
 - `src/ur_description/` — Universal Robots description and URDF resources
 - `robot_calibration.yaml` — calibration-related configuration file
 
-## Why some folders were not clickable on GitHub
+## External packages
 
 Previously, some directories inside `src/` were nested Git repositories rather than normal tracked subfolders. That made GitHub render them as gitlinks instead of ordinary browsable directories.
 
@@ -69,7 +64,7 @@ The repository contains multiple ROS2 packages. To use the Universal Robots driv
 
 ```bash
 source install/setup.bash
-ros2 launch ur_robot_driver ur5e.launch.py
+ros2 launch ur_robot_driver ur10e.launch.py
 ```
 
 To use the Robotiq Hand-E gripper package:
@@ -131,3 +126,4 @@ This project is licensed under the MIT License. See `LICENSE` for details.
 - If you want GitHub to display package contents normally, remove nested `.git` folders or use proper submodules.
 - If the repository is intended to be a standalone workspace, keeping the package content tracked directly is usually the best approach.
 - If the package directories are shared across multiple repositories, then submodules are the more appropriate solution.
+- The repository includes external packages from other authors, which are incorporated here as normal source directories for browsing and building. Team 14 did not author those external packages.
